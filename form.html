@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register — Khel Utsav</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Raleway:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --gold:  #f5b74a;
+      --navy:  #0b1c4d;
+      --dark:  #020617;
+      --white: #f1f5f9;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Raleway', sans-serif;
+      background: radial-gradient(ellipse at 30% 20%, #0d2462 0%, var(--dark) 55%);
+      min-height: 100vh;
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 16px;
+    }
+
+    .form-wrapper {
+      width: 100%;
+      max-width: 620px;
+    }
+
+    .form-top {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--gold);
+      text-decoration: none;
+      font-size: 0.82rem;
+      letter-spacing: 1px;
+      margin-bottom: 24px;
+      font-weight: 600;
+      transition: opacity 0.2s;
+    }
+    .back-link:hover { opacity: 0.75; }
+
+    .form-eyebrow {
+      font-size: 0.72rem;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 10px;
+    }
+
+    .form-title {
+      font-family: 'Cinzel', serif;
+      font-size: 2.2rem;
+      letter-spacing: 2px;
+      color: #fff;
+    }
+
+    /* sport badge */
+    .sport-badge {
+      display: inline-block;
+      background: rgba(245,183,74,0.15);
+      border: 1px solid rgba(245,183,74,0.4);
+      color: var(--gold);
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 6px 18px;
+      border-radius: 30px;
+      margin-top: 14px;
+    }
+
+    /* card */
+    .form-card {
+      background: rgba(11, 28, 77, 0.55);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 24px;
+      padding: 40px 36px;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    .full-width { grid-column: 1 / -1; }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-group label {
+      font-size: 0.75rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.6);
+      font-weight: 600;
+    }
+
+    .form-group input,
+    .form-group select {
+      padding: 12px 16px;
+      border-radius: 10px;
+      border: 1.5px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.06);
+      color: #fff;
+      font-family: 'Raleway', sans-serif;
+      font-size: 0.92rem;
+      outline: none;
+      transition: border-color 0.25s, box-shadow 0.25s;
+      appearance: auto;
+    }
+
+    .form-group select option { background: var(--navy); color: #fff; }
+
+    .form-group input:focus,
+    .form-group select:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(245,183,74,0.15);
+    }
+
+    .form-group input::placeholder { color: rgba(255,255,255,0.3); }
+
+    /* section divider */
+    .form-section-label {
+      grid-column: 1 / -1;
+      font-family: 'Cinzel', serif;
+      font-size: 0.8rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      border-bottom: 1px solid rgba(245,183,74,0.2);
+      padding-bottom: 8px;
+      margin-top: 8px;
+    }
+
+    /* file input */
+    .form-group input[type="file"] {
+      padding: 10px 12px;
+      cursor: pointer;
+    }
+    .form-group input[type="file"]::file-selector-button {
+      background: var(--gold);
+      color: var(--navy);
+      border: none;
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-weight: 700;
+      font-family: 'Raleway', sans-serif;
+      cursor: pointer;
+      margin-right: 12px;
+    }
+
+    /* checkbox */
+    .form-check {
+      grid-column: 1 / -1;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.7);
+    }
+    .form-check input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      accent-color: var(--gold);
+      flex-shrink: 0;
+      margin-top: 2px;
+      cursor: pointer;
+    }
+
+    /* submit */
+    .submit-btn {
+      grid-column: 1 / -1;
+      margin-top: 10px;
+      padding: 16px;
+      background: linear-gradient(135deg, var(--gold), #e67e22);
+      color: var(--navy);
+      border: none;
+      border-radius: 50px;
+      font-family: 'Cinzel', serif;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      cursor: pointer;
+      transition: transform 0.25s, box-shadow 0.25s;
+      box-shadow: 0 8px 24px rgba(245,183,74,0.35);
+    }
+    .submit-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 14px 32px rgba(245,183,74,0.5);
+    }
+    .submit-btn:disabled {
+      opacity: 0.6; cursor: not-allowed; transform: none;
+    }
+
+    /* toast */
+    .toast {
+      position: fixed;
+      bottom: 32px; left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: #16a34a;
+      color: #fff;
+      padding: 14px 28px;
+      border-radius: 50px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      font-size: 0.9rem;
+      opacity: 0;
+      transition: all 0.5s ease;
+      z-index: 9999;
+      text-align: center;
+    }
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+    .toast.error { background: #dc2626; }
+
+    /* spinner */
+    .spinner {
+      display: inline-block;
+      width: 18px; height: 18px;
+      border: 3px solid rgba(11,28,77,0.3);
+      border-top-color: var(--navy);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      vertical-align: middle;
+      margin-right: 8px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    @media (max-width: 600px) {
+      .form-grid { grid-template-columns: 1fr; }
+      .form-card { padding: 28px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="form-wrapper">
+    <div class="form-top">
+      <a href="index.html" class="back-link">← Back to Khel Utsav</a>
+      <p class="form-eyebrow">Official Registration</p>
+      <h1 class="form-title">Sports Registration</h1>
+      <span class="sport-badge" id="sportBadge">Select a Sport</span>
+    </div>
+
+    <div class="form-card">
+      <form class="form-grid" id="regForm" action="/submit" method="POST" enctype="multipart/form-data">
+
+        <p class="form-section-label">Personal Info</p>
+
+        <div class="form-group">
+          <label>Full Name *</label>
+          <input type="text" name="name" placeholder="Your full name" required>
+        </div>
+
+        <div class="form-group">
+          <label>Instituion's Name *</label>
+          <input type="text" name="college" placeholder="College name" required>
+        </div>
+
+        <div class="form-group">
+          <label>Email *</label>
+          <input type="email" name="email" placeholder="example@gmail.com" required>
+        </div>
+
+        <div class="form-group">
+          <label>Mobile Number *</label>
+          <input type="tel" name="mobile" placeholder="10-digit number" pattern="[6-9][0-9]{9}" required>
+        </div>
+
+        <p class="form-section-label">Sport Details</p>
+
+        <div class="form-group">
+          <label>Sport *</label>
+          <select name="sport" id="sportSelect" required>
+            <option value="">Select Sport</option>
+            <option>Cricket</option>
+            <option>Football</option>
+            <option>Kabaddi</option>
+            <option>Chess</option>
+            <option>Carrom</option>
+            <option>Basketball</option>
+            <option>Volleyball</option>
+            <option>Table Tennis</option>
+            <option>Badminton</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Category *</label>
+          <select name="category" required>
+            <option value="">Select</option>
+            <option>Male</option>
+            <option>Female</option>
+          </select>
+        </div>
+
+        <p class="form-section-label">Team Info <span style="opacity:0.5;font-size:0.7rem">(optional)</span></p>
+
+        <div class="form-group">
+          <label>Team Name</label>
+          <input type="text" name="team" placeholder="Your team name">
+        </div>
+
+        <div class="form-group">
+          <label>Captain Name</label>
+          <input type="text" name="captain" placeholder="Captain's name">
+        </div>
+
+        <p class="form-section-label">Document</p>
+
+        <div class="form-group full-width">
+          <label>College ID Card *</label>
+          <input type="file" name="file" accept="image/*,.pdf" required>
+        </div>
+
+        <div class="form-check">
+          <input type="checkbox" id="confirm" required>
+          <label for="confirm">I confirm that all details submitted are accurate and I agree to the event rules and regulations.</label>
+        </div>
+
+        <button type="submit" class="submit-btn" id="submitBtn">Register Now</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    /* ---- Auto-select sport from URL query param ---- */
+    const params = new URLSearchParams(window.location.search);
+    const sportParam = params.get('sport');
+    const sportSelect = document.getElementById('sportSelect');
+    const sportBadge  = document.getElementById('sportBadge');
+
+    if (sportParam) {
+      for (const opt of sportSelect.options) {
+        if (opt.value.toLowerCase() === sportParam.toLowerCase()) {
+          opt.selected = true;
+          sportBadge.textContent = '🏅 ' + opt.value;
+          break;
+        }
+      }
+    }
+
+    sportSelect.addEventListener('change', () => {
+      sportBadge.textContent = sportSelect.value ? '🏅 ' + sportSelect.value : 'Select a Sport';
+    });
+
+    /* ---- Show toast ---- */
+    function showToast(msg, isError = false) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.className = 'toast' + (isError ? ' error' : '');
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 4000);
+    }
+
+    /* ---- Form submit (AJAX) ---- */
+    document.getElementById('regForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const btn = document.getElementById('submitBtn');
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner"></span> Submitting…';
+
+      try {
+        const formData = new FormData(this);
+        const res = await fetch('/submit', { method: 'POST', body: formData });
+        if (res.ok) {
+          showToast('✅ Registration successful! Check your email.');
+          this.reset();
+          sportBadge.textContent = 'Select a Sport';
+        } else {
+          showToast('❌ Server error. Please try again.', true);
+        }
+      } catch (err) {
+        showToast('❌ Could not connect to server.', true);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Register Now';
+      }
+    });
+  </script>
+</body>
+</html>

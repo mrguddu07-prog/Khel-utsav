@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login — Khel Utsav</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Raleway:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --gold: #f5b74a;
+      --gold-dim: rgba(245,183,74,0.15);
+      --gold-glow: rgba(245,183,74,0.25);
+      --navy: #0b1c4d;
+      --dark: #020617;
+      --white: #f1f5f9;
+      --red: #dc2626;
+      --green: #16a34a;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Raleway', sans-serif;
+      background: var(--dark);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      color: var(--white);
+    }
+
+    /* ── Animated background ── */
+    .bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+    }
+    .bg-grad {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 20% 30%, #0d2462 0%, transparent 55%),
+        radial-gradient(ellipse at 80% 70%, #1a0a3d 0%, transparent 55%),
+        var(--dark);
+    }
+
+    /* Floating orbs */
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.25;
+      animation: drift linear infinite;
+    }
+    .orb1 { width: 400px; height: 400px; background: #f5b74a; top: -100px; left: -100px; animation-duration: 18s; }
+    .orb2 { width: 300px; height: 300px; background: #1a3a8f; bottom: -80px; right: -80px; animation-duration: 22s; animation-direction: reverse; }
+    .orb3 { width: 200px; height: 200px; background: #7c3aed; top: 50%; left: 50%; animation-duration: 15s; }
+
+    @keyframes drift {
+      0%   { transform: translate(0, 0) scale(1); }
+      33%  { transform: translate(30px, -20px) scale(1.05); }
+      66%  { transform: translate(-20px, 30px) scale(0.95); }
+      100% { transform: translate(0, 0) scale(1); }
+    }
+
+    /* Grid lines */
+    .grid-lines {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(245,183,74,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(245,183,74,0.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+
+    /* ── Login card ── */
+    .login-wrapper {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      max-width: 420px;
+      padding: 20px;
+      animation: fadeUp 0.7s cubic-bezier(.4,0,.2,1) both;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(32px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Top badge */
+    .login-top {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: rgba(245,183,74,0.6);
+      text-decoration: none;
+      font-size: 0.75rem;
+      letter-spacing: 1.5px;
+      font-weight: 600;
+      margin-bottom: 28px;
+      transition: color 0.2s;
+    }
+    .back-link:hover { color: var(--gold); }
+
+    .shield-icon {
+      width: 64px;
+      height: 64px;
+      background: var(--gold-dim);
+      border: 1.5px solid rgba(245,183,74,0.3);
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      margin: 0 auto 20px;
+      position: relative;
+      animation: pulse-border 3s ease-in-out infinite;
+    }
+    @keyframes pulse-border {
+      0%, 100% { box-shadow: 0 0 0 0 var(--gold-glow); }
+      50%       { box-shadow: 0 0 0 10px transparent; }
+    }
+
+    .eyebrow {
+      font-size: 0.65rem;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+    .login-title {
+      font-family: 'Cinzel', serif;
+      font-size: 1.9rem;
+      letter-spacing: 3px;
+      color: #fff;
+      line-height: 1.2;
+    }
+    .login-sub {
+      margin-top: 8px;
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.35);
+      letter-spacing: 0.5px;
+    }
+
+    /* Card */
+    .login-card {
+      background: rgba(11,28,77,0.5);
+      border: 1px solid rgba(255,255,255,0.09);
+      border-radius: 24px;
+      padding: 36px 32px;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      box-shadow: 0 32px 64px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.06);
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+    .form-group label {
+      display: block;
+      font-size: 0.7rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .input-wrap {
+      position: relative;
+    }
+    .input-wrap .input-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1rem;
+      pointer-events: none;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 13px 16px 13px 42px;
+      border-radius: 12px;
+      border: 1.5px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.05);
+      color: #fff;
+      font-family: 'Raleway', sans-serif;
+      font-size: 0.95rem;
+      outline: none;
+      transition: border-color 0.25s, box-shadow 0.25s, background 0.25s;
+      letter-spacing: 1px;
+    }
+    .form-group input:focus {
+      border-color: var(--gold);
+      background: rgba(245,183,74,0.05);
+      box-shadow: 0 0 0 4px rgba(245,183,74,0.12);
+    }
+    .form-group input::placeholder { color: rgba(255,255,255,0.2); letter-spacing: 0.5px; }
+
+    /* Show/hide password toggle */
+    .toggle-pwd {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: rgba(255,255,255,0.3);
+      cursor: pointer;
+      font-size: 1rem;
+      transition: color 0.2s;
+      padding: 0;
+    }
+    .toggle-pwd:hover { color: var(--gold); }
+
+    /* Error message */
+    .error-msg {
+      display: none;
+      align-items: center;
+      gap: 8px;
+      background: rgba(220,38,38,0.12);
+      border: 1px solid rgba(220,38,38,0.3);
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-size: 0.82rem;
+      color: #fca5a5;
+      margin-bottom: 20px;
+      animation: shake 0.4s cubic-bezier(.36,.07,.19,.97);
+    }
+    .error-msg.show { display: flex; }
+    @keyframes shake {
+      0%,100% { transform: translateX(0); }
+      20%      { transform: translateX(-8px); }
+      40%      { transform: translateX(8px); }
+      60%      { transform: translateX(-5px); }
+      80%      { transform: translateX(5px); }
+    }
+
+    /* Login button */
+    .login-btn {
+      width: 100%;
+      padding: 15px;
+      background: linear-gradient(135deg, var(--gold), #e67e22);
+      color: var(--navy);
+      border: none;
+      border-radius: 50px;
+      font-family: 'Cinzel', serif;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 2.5px;
+      cursor: pointer;
+      transition: transform 0.25s, box-shadow 0.25s, opacity 0.25s;
+      box-shadow: 0 8px 28px rgba(245,183,74,0.4);
+      position: relative;
+      overflow: hidden;
+    }
+    .login-btn::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.15), transparent);
+      opacity: 0;
+      transition: opacity 0.25s;
+    }
+    .login-btn:hover:not(:disabled)::after { opacity: 1; }
+    .login-btn:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 36px rgba(245,183,74,0.55);
+    }
+    .login-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+    /* Attempts indicator */
+    .attempts-info {
+      text-align: center;
+      margin-top: 18px;
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.25);
+      letter-spacing: 0.5px;
+    }
+    .attempts-info span { color: var(--gold); font-weight: 700; }
+
+    /* Spinner */
+    .spinner {
+      display: inline-block;
+      width: 16px; height: 16px;
+      border: 3px solid rgba(11,28,77,0.3);
+      border-top-color: var(--navy);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      vertical-align: middle;
+      margin-right: 8px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Lockout screen */
+    .lockout {
+      display: none;
+      text-align: center;
+      padding: 20px 0;
+    }
+    .lockout.show { display: block; }
+    .lockout-icon { font-size: 3rem; margin-bottom: 16px; }
+    .lockout-title { font-family: 'Cinzel', serif; font-size: 1.2rem; color: var(--red); margin-bottom: 10px; }
+    .lockout-msg { font-size: 0.85rem; color: rgba(255,255,255,0.45); line-height: 1.6; }
+    .countdown { font-size: 1.5rem; font-family: 'Cinzel', serif; color: var(--gold); margin: 16px 0; }
+
+    /* Footer note */
+    .login-footer {
+      text-align: center;
+      margin-top: 24px;
+      font-size: 0.72rem;
+      color: rgba(255,255,255,0.2);
+      letter-spacing: 0.5px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background -->
+  <div class="bg">
+    <div class="bg-grad"></div>
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+    <div class="orb orb3"></div>
+    <div class="grid-lines"></div>
+  </div>
+
+  <div class="login-wrapper">
+    <div class="login-top">
+      <a href="index.html" class="back-link">← Back to Khel Utsav</a>
+      <div class="shield-icon">🛡️</div>
+      <p class="eyebrow">Restricted Access</p>
+      <h1 class="login-title">Admin Login</h1>
+      <p class="login-sub">Khel Utsav 2025–26 · DBUU</p>
+    </div>
+
+    <div class="login-card">
+
+      <!-- Error message -->
+      <div class="error-msg" id="errorMsg">
+        <span>⚠️</span>
+        <span id="errorText">Incorrect password. Please try again.</span>
+      </div>
+
+      <!-- Login form -->
+      <div id="loginForm">
+        <div class="form-group">
+          <label>Password</label>
+          <div class="input-wrap">
+            <span class="input-icon">🔑</span>
+            <input type="password" id="passwordInput" placeholder="Enter admin password" autocomplete="current-password">
+            <button class="toggle-pwd" type="button" id="togglePwd" onclick="togglePassword()">👁️</button>
+          </div>
+        </div>
+
+        <button class="login-btn" id="loginBtn" onclick="attemptLogin()">
+          Enter Dashboard
+        </button>
+
+        <p class="attempts-info" id="attemptsInfo"></p>
+      </div>
+
+      <!-- Lockout screen -->
+      <div class="lockout" id="lockout">
+        <div class="lockout-icon">🔒</div>
+        <div class="lockout-title">Access Locked</div>
+        <div class="lockout-msg">Too many failed attempts.<br>Please wait before trying again.</div>
+        <div class="countdown" id="countdown"></div>
+        <div class="lockout-msg">This helps protect your admin panel.</div>
+      </div>
+
+    </div>
+
+    <p class="login-footer">🔐 Secure Admin Access · Khel Utsav 2025–26</p>
+  </div>
+
+  <script>
+    const ADMIN_PASSWORD = 'khel@2025'; // ← change this
+    const MAX_ATTEMPTS   = 5;
+    const LOCKOUT_SECS   = 60;
+
+    let attempts = parseInt(sessionStorage.getItem('loginAttempts') || '0');
+    let lockoutEnd = parseInt(sessionStorage.getItem('lockoutEnd') || '0');
+
+    // If already logged in, go straight to admin
+    if (sessionStorage.getItem('adminAuth') === 'true') {
+      window.location.href = 'admin.html';
+    }
+
+    // Check lockout on load
+    checkLockout();
+
+    // Allow Enter key to submit
+    document.getElementById('passwordInput').addEventListener('keydown', e => {
+      if (e.key === 'Enter') attemptLogin();
+    });
+
+    function attemptLogin() {
+      if (Date.now() < lockoutEnd) { checkLockout(); return; }
+
+      const pwd = document.getElementById('passwordInput').value;
+      const btn = document.getElementById('loginBtn');
+
+      if (!pwd) {
+        showError('Please enter a password.');
+        return;
+      }
+
+      // Show spinner briefly for feel
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner"></span> Verifying…';
+
+      setTimeout(() => {
+        if (pwd === ADMIN_PASSWORD) {
+          // ✅ Success
+          sessionStorage.setItem('adminAuth', 'true');
+          sessionStorage.removeItem('loginAttempts');
+          sessionStorage.removeItem('lockoutEnd');
+          btn.innerHTML = '✅ Access Granted!';
+          setTimeout(() => { window.location.href = 'admin.html'; }, 600);
+        } else {
+          // ❌ Wrong password
+          attempts++;
+          sessionStorage.setItem('loginAttempts', attempts);
+          document.getElementById('passwordInput').value = '';
+
+          const remaining = MAX_ATTEMPTS - attempts;
+
+          if (attempts >= MAX_ATTEMPTS) {
+            // Lock out
+            const end = Date.now() + LOCKOUT_SECS * 1000;
+            sessionStorage.setItem('lockoutEnd', end);
+            lockoutEnd = end;
+            showLockout();
+          } else {
+            showError(`Incorrect password. ${remaining} attempt${remaining !== 1 ? 's' : ''} remaining.`);
+            updateAttemptsInfo();
+          }
+
+          btn.disabled = false;
+          btn.innerHTML = 'Enter Dashboard';
+        }
+      }, 700);
+    }
+
+    function showError(msg) {
+      const el = document.getElementById('errorMsg');
+      document.getElementById('errorText').textContent = msg;
+      el.classList.remove('show');
+      void el.offsetWidth; // re-trigger animation
+      el.classList.add('show');
+    }
+
+    function updateAttemptsInfo() {
+      const remaining = MAX_ATTEMPTS - attempts;
+      const info = document.getElementById('attemptsInfo');
+      if (remaining <= 3 && remaining > 0) {
+        info.innerHTML = `⚠️ <span>${remaining}</span> attempt${remaining !== 1 ? 's' : ''} left before lockout`;
+      } else {
+        info.textContent = '';
+      }
+    }
+
+    function showLockout() {
+      document.getElementById('loginForm').style.display = 'none';
+      document.getElementById('errorMsg').classList.remove('show');
+      document.getElementById('lockout').classList.add('show');
+      startCountdown();
+    }
+
+    function startCountdown() {
+      const el = document.getElementById('countdown');
+      const interval = setInterval(() => {
+        const left = Math.ceil((lockoutEnd - Date.now()) / 1000);
+        if (left <= 0) {
+          clearInterval(interval);
+          // Reset
+          attempts = 0;
+          sessionStorage.removeItem('loginAttempts');
+          sessionStorage.removeItem('lockoutEnd');
+          lockoutEnd = 0;
+          document.getElementById('lockout').classList.remove('show');
+          document.getElementById('loginForm').style.display = 'block';
+          el.textContent = '';
+        } else {
+          el.textContent = left + 's';
+        }
+      }, 1000);
+    }
+
+    function checkLockout() {
+      if (Date.now() < lockoutEnd) {
+        showLockout();
+      } else {
+        updateAttemptsInfo();
+      }
+    }
+
+    function togglePassword() {
+      const input = document.getElementById('passwordInput');
+      const btn   = document.getElementById('togglePwd');
+      if (input.type === 'password') {
+        input.type = 'text';
+        btn.textContent = '🙈';
+      } else {
+        input.type = 'password';
+        btn.textContent = '👁️';
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard — Khel Utsav</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Raleway:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root { --gold:#f5b74a; --gold-dim:rgba(245,183,74,0.15); --navy:#0b1c4d; --dark:#020617; --white:#f1f5f9; --green:#16a34a; --red:#dc2626; }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Raleway',sans-serif;background:radial-gradient(ellipse at 20% 10%,#0d2462 0%,var(--dark) 60%);min-height:100vh;color:var(--white);padding:40px 20px}
+    .dashboard-header{text-align:center;margin-bottom:48px}
+    .back-link{display:inline-flex;align-items:center;gap:6px;color:var(--gold);text-decoration:none;font-size:0.8rem;letter-spacing:1.5px;font-weight:600;margin-bottom:20px;transition:opacity 0.2s}
+    .back-link:hover{opacity:0.7}
+    .eyebrow{font-size:0.7rem;letter-spacing:5px;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+    .page-title{font-family:'Cinzel',serif;font-size:2.4rem;letter-spacing:3px;color:#fff}
+    .page-subtitle{margin-top:10px;color:rgba(255,255,255,0.45);font-size:0.88rem;letter-spacing:1px}
+    .stat-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:20px;max-width:900px;margin:0 auto 40px}
+    .stat-card{background:rgba(11,28,77,0.5);border:1px solid rgba(255,255,255,0.09);border-radius:18px;padding:24px 20px;text-align:center;backdrop-filter:blur(12px);transition:transform 0.25s,border-color 0.25s}
+    .stat-card:hover{transform:translateY(-4px);border-color:rgba(245,183,74,0.3)}
+    .stat-card .icon{font-size:1.8rem;margin-bottom:10px}
+    .stat-card .num{font-family:'Cinzel',serif;font-size:2.2rem;color:var(--gold);line-height:1}
+    .stat-card .label{font-size:0.72rem;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-top:6px}
+    .btn-row{text-align:center;margin-bottom:24px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+    .fetch-btn{padding:14px 36px;background:linear-gradient(135deg,var(--gold),#e67e22);color:var(--navy);border:none;border-radius:50px;font-family:'Cinzel',serif;font-size:0.95rem;font-weight:700;letter-spacing:2px;cursor:pointer;transition:transform 0.25s,box-shadow 0.25s;box-shadow:0 8px 28px rgba(245,183,74,0.35)}
+    .fetch-btn:hover:not(:disabled){transform:translateY(-3px);box-shadow:0 16px 36px rgba(245,183,74,0.5)}
+    .fetch-btn:disabled{opacity:0.55;cursor:not-allowed;transform:none}
+    .fetch-btn.secondary{background:transparent;border:1.5px solid rgba(245,183,74,0.5);color:var(--gold);box-shadow:none}
+    .fetch-btn.secondary:hover:not(:disabled){background:var(--gold-dim);box-shadow:none}
+    .spinner{display:inline-block;width:16px;height:16px;border:3px solid rgba(11,28,77,0.3);border-top-color:var(--navy);border-radius:50%;animation:spin 0.7s linear infinite;vertical-align:middle;margin-right:8px}
+    .spinner.light{border-color:rgba(245,183,74,0.2);border-top-color:var(--gold)}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .content-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:1100px;margin:0 auto 32px}
+    @media(max-width:780px){.content-grid{grid-template-columns:1fr}}
+    .panel{background:rgba(11,28,77,0.45);border:1px solid rgba(255,255,255,0.08);border-radius:22px;padding:28px;backdrop-filter:blur(14px)}
+    .panel-title{font-family:'Cinzel',serif;font-size:0.85rem;letter-spacing:2.5px;color:var(--gold);text-transform:uppercase;margin-bottom:22px;border-bottom:1px solid rgba(245,183,74,0.18);padding-bottom:12px;display:flex;align-items:center;justify-content:space-between}
+    .chart-area{min-height:220px;display:flex;align-items:flex-end;gap:8px}
+    .bar-wrap{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px}
+    .bar-count{font-size:0.72rem;font-weight:700;color:var(--gold);opacity:0;transition:opacity 0.3s}
+    .bar-wrap.loaded .bar-count{opacity:1}
+    .bar{width:100%;background:linear-gradient(180deg,var(--gold),#e67e22);border-radius:8px 8px 0 0;min-height:4px;transition:height 0.7s cubic-bezier(.4,0,.2,1)}
+    .bar-label{font-size:0.6rem;color:rgba(255,255,255,0.45);text-align:center;writing-mode:vertical-lr;transform:rotate(180deg);height:52px}
+    .no-data{color:rgba(255,255,255,0.3);font-size:0.88rem;text-align:center;width:100%;padding:40px 0}
+    .sport-list{display:flex;flex-direction:column;gap:10px}
+    .sport-row{display:flex;align-items:center;gap:12px}
+    .sport-name{width:110px;font-size:0.82rem;color:rgba(255,255,255,0.7);flex-shrink:0}
+    .sport-bar-bg{flex:1;background:rgba(255,255,255,0.06);border-radius:50px;height:10px;overflow:hidden}
+    .sport-bar-fill{height:100%;border-radius:50px;background:linear-gradient(90deg,var(--gold),#e67e22);width:0;transition:width 0.8s cubic-bezier(.4,0,.2,1)}
+    .sport-num{font-size:0.78rem;font-weight:700;color:var(--gold);width:28px;text-align:right}
+    .data-table{width:100%;border-collapse:collapse;font-size:0.85rem}
+    .data-table th{font-size:0.65rem;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.4);padding:8px 10px;text-align:left;border-bottom:1px solid rgba(255,255,255,0.07)}
+    .data-table td{padding:11px 10px;border-bottom:1px solid rgba(255,255,255,0.05);color:rgba(255,255,255,0.85)}
+    .data-table tr:last-child td{border-bottom:none}
+    .data-table tr:hover td{background:rgba(245,183,74,0.05)}
+    .badge-count{background:var(--gold-dim);color:var(--gold);border:1px solid rgba(245,183,74,0.3);border-radius:20px;padding:2px 12px;font-weight:700;font-size:0.8rem}
+    .dot-today{display:inline-block;width:7px;height:7px;background:var(--green);border-radius:50%;margin-left:6px;vertical-align:middle}
+    .reg-panel{background:rgba(11,28,77,0.45);border:1px solid rgba(255,255,255,0.08);border-radius:22px;padding:28px;backdrop-filter:blur(14px);max-width:1100px;margin:0 auto 32px}
+    .filter-bar{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px;align-items:center}
+    .search-input{flex:1;min-width:200px;padding:10px 16px;border-radius:10px;border:1.5px solid rgba(255,255,255,0.12);background:rgba(255,255,255,0.06);color:#fff;font-family:'Raleway',sans-serif;font-size:0.88rem;outline:none;transition:border-color 0.25s}
+    .search-input:focus{border-color:var(--gold)}
+    .search-input::placeholder{color:rgba(255,255,255,0.3)}
+    .filter-select{padding:10px 14px;border-radius:10px;border:1.5px solid rgba(255,255,255,0.12);background:rgba(255,255,255,0.06);color:#fff;font-family:'Raleway',sans-serif;font-size:0.88rem;outline:none;cursor:pointer}
+    .filter-select option{background:var(--navy)}
+    .reg-count-badge{font-size:0.75rem;color:rgba(255,255,255,0.45);letter-spacing:1px;white-space:nowrap}
+    .table-scroll{overflow-x:auto}
+    .reg-table{width:100%;border-collapse:collapse;font-size:0.82rem;min-width:750px}
+    .reg-table th{font-size:0.62rem;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.4);padding:10px 12px;text-align:left;border-bottom:1px solid rgba(255,255,255,0.07);position:sticky;top:0;background:#0a1840;z-index:2}
+    .reg-table td{padding:12px 12px;border-bottom:1px solid rgba(255,255,255,0.04);color:rgba(255,255,255,0.82);vertical-align:middle}
+    .reg-table tr:last-child td{border-bottom:none}
+    .reg-table tr:hover td{background:rgba(245,183,74,0.04)}
+    .sport-pill{display:inline-block;padding:3px 10px;border-radius:20px;font-size:0.72rem;font-weight:700;letter-spacing:1px;background:var(--gold-dim);color:var(--gold);border:1px solid rgba(245,183,74,0.25)}
+    .cat-pill{display:inline-block;padding:3px 10px;border-radius:20px;font-size:0.7rem;font-weight:600;background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.6);border:1px solid rgba(255,255,255,0.1)}
+    .sno{color:rgba(255,255,255,0.25);font-size:0.75rem}
+    .reg-date{color:rgba(255,255,255,0.45);font-size:0.75rem}
+    .team-info{font-size:0.75rem;color:rgba(255,255,255,0.45)}
+    .status-msg{text-align:center;font-size:0.83rem;margin-bottom:20px;min-height:20px;color:rgba(255,255,255,0.4);letter-spacing:0.5px}
+    .status-msg.ok{color:var(--green)}
+    .status-msg.err{color:var(--red)}
+    .export-btn{padding:7px 18px;background:transparent;border:1px solid rgba(245,183,74,0.3);color:var(--gold);border-radius:20px;font-size:0.75rem;font-weight:600;letter-spacing:1px;cursor:pointer;transition:background 0.2s}
+    .export-btn:hover{background:var(--gold-dim)}
+    .empty-row td{text-align:center;padding:40px;color:rgba(255,255,255,0.25)}
+  </style>
+</head>
+<body>
+
+<div class="dashboard-header">
+  <a href="index.html" class="back-link">← Back to Khel Utsav</a>
+  <p class="eyebrow">Admin Panel</p>
+  <h1 class="page-title">Registration Dashboard</h1>
+  <p class="page-subtitle">Live data from MongoDB · Khel Utsav 2025–26</p>
+</div>
+
+<div class="stat-row">
+  <div class="stat-card"><div class="icon">👥</div><div class="num" id="totalCount">—</div><div class="label">Total Registrations</div></div>
+  <div class="stat-card"><div class="icon">📅</div><div class="num" id="todayCount">—</div><div class="label">Today</div></div>
+  <div class="stat-card"><div class="icon">🏅</div><div class="num" id="topSport">—</div><div class="label">Most Popular Sport</div></div>
+  <div class="stat-card"><div class="icon">📆</div><div class="num" id="activeDays">—</div><div class="label">Active Days</div></div>
+</div>
+
+<div class="btn-row">
+  <button class="fetch-btn" id="fetchStatsBtn" onclick="fetchStats()">📊 Fetch Stats</button>
+  <button class="fetch-btn secondary" id="fetchRegsBtn" onclick="fetchRegistrations()">📋 Fetch All Registrations</button>
+</div>
+<div class="status-msg" id="statusMsg">Click a button to load live data from MongoDB</div>
+
+<!-- Charts -->
+<div class="content-grid" id="contentGrid" style="display:none">
+  <div class="panel">
+    <div class="panel-title">📈 Daily Registrations (Last 14 Days)</div>
+    <div class="chart-area" id="barChart"><div class="no-data">No data yet</div></div>
+  </div>
+  <div class="panel">
+    <div class="panel-title">🏆 Registrations by Sport</div>
+    <div class="sport-list" id="sportList"><div class="no-data">No data yet</div></div>
+  </div>
+  <div class="panel" style="grid-column:1/-1">
+    <div class="panel-title">📋 Day-by-Day Breakdown</div>
+    <table class="data-table">
+      <thead><tr><th>#</th><th>Date</th><th>Day</th><th>New Registrations</th><th>Cumulative Total</th></tr></thead>
+      <tbody id="tableBody"><tr><td colspan="5" style="text-align:center;padding:30px;color:rgba(255,255,255,0.3)">No data loaded yet</td></tr></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Full Registrations -->
+<div class="reg-panel" id="regPanel" style="display:none">
+  <div class="panel-title">
+    <span>🗃️ All Registered Users</span>
+    <button class="export-btn" onclick="exportCSV()">⬇ Export CSV</button>
+  </div>
+  <div class="filter-bar">
+    <input class="search-input" id="searchInput" type="text" placeholder="🔍 Search by name, email, college…" oninput="filterTable()">
+    <select class="filter-select" id="sportFilter" onchange="filterTable()">
+      <option value="">All Sports</option>
+      <option>Cricket</option><option>Football</option><option>Kabaddi</option>
+      <option>Chess</option><option>Carrom</option><option>Basketball</option>
+      <option>Volleyball</option><option>Table Tennis</option><option>Badminton</option>
+    </select>
+    <select class="filter-select" id="catFilter" onchange="filterTable()">
+      <option value="">All Categories</option>
+      <option>Male</option><option>Female</option>
+    </select>
+    <span class="reg-count-badge" id="regCountBadge"></span>
+  </div>
+  <div class="table-scroll">
+    <table class="reg-table">
+      <thead>
+        <tr>
+          <th>#</th><th>Name</th><th>College / Institution</th><th>Email</th>
+          <th>Mobile</th><th>Sport</th><th>Category</th><th>Team / Captain</th><th>Registered On</th>
+        </tr>
+      </thead>
+      <tbody id="regTableBody">
+        <tr class="empty-row"><td colspan="9">No registrations loaded yet</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+  // ── Auth check — redirects to login page if not authenticated ──
+  // Redirect to login page if not authenticated
+  if (sessionStorage.getItem('adminAuth') !== 'true') {
+    window.location.href = 'admin-login.html';
+  }
+
+  const today = new Date().toDateString();
+  let allRegistrations = [];
+
+  async function fetchStats() {
+    const btn = document.getElementById('fetchStatsBtn');
+    const msg = document.getElementById('statusMsg');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span> Fetching…';
+    msg.className = 'status-msg';
+    msg.textContent = 'Connecting to database…';
+    try {
+      const res = await fetch('/api/stats');
+      if (!res.ok) throw new Error('Server returned ' + res.status);
+      const data = await res.json();
+      renderStats(data);
+      msg.className = 'status-msg ok';
+      msg.textContent = '✅ Stats loaded — ' + new Date().toLocaleTimeString();
+      document.getElementById('contentGrid').style.display = 'grid';
+    } catch (err) {
+      msg.className = 'status-msg err';
+      msg.textContent = '❌ Failed: ' + err.message;
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = '🔄 Refresh Stats';
+    }
+  }
+
+  async function fetchRegistrations() {
+    const btn = document.getElementById('fetchRegsBtn');
+    const msg = document.getElementById('statusMsg');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner light"></span> Loading…';
+    msg.className = 'status-msg';
+    msg.textContent = 'Fetching all registrations…';
+    try {
+      const res = await fetch('/api/registrations');
+      if (!res.ok) throw new Error('Server returned ' + res.status);
+      const json = await res.json();
+      allRegistrations = json.data;
+      renderRegTable(allRegistrations);
+      msg.className = 'status-msg ok';
+      msg.textContent = '✅ ' + allRegistrations.length + ' registrations loaded — ' + new Date().toLocaleTimeString();
+      document.getElementById('regPanel').style.display = 'block';
+    } catch (err) {
+      msg.className = 'status-msg err';
+      msg.textContent = '❌ Failed: ' + err.message;
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = '🔄 Refresh Registrations';
+    }
+  }
+
+  function renderStats(data) {
+    const { total, todayCount, byDay, bySport } = data;
+    document.getElementById('totalCount').textContent = total;
+    document.getElementById('todayCount').textContent = todayCount;
+    document.getElementById('activeDays').textContent = byDay.length;
+    if (bySport.length > 0) {
+      const top = bySport.reduce((a, b) => a.count > b.count ? a : b);
+      document.getElementById('topSport').textContent = top._id;
+    }
+    const last14 = byDay.slice(-14);
+    const maxVal = Math.max(...last14.map(d => d.count), 1);
+    const chartEl = document.getElementById('barChart');
+    chartEl.innerHTML = '';
+    if (!last14.length) { chartEl.innerHTML = '<div class="no-data">No registrations yet</div>'; }
+    else {
+      last14.forEach((d, i) => {
+        const pct = (d.count / maxVal) * 200;
+        const label = new Date(d._id).toLocaleDateString('en-IN', { day: '2-digit', month: 'short' });
+        const wrap = document.createElement('div');
+        wrap.className = 'bar-wrap';
+        wrap.innerHTML = '<div class="bar-count">' + d.count + '</div><div class="bar" style="height:0px"></div><div class="bar-label">' + label + '</div>';
+        chartEl.appendChild(wrap);
+        setTimeout(() => { wrap.querySelector('.bar').style.height = pct + 'px'; wrap.classList.add('loaded'); }, 50 + i * 40);
+      });
+    }
+    const sportEl = document.getElementById('sportList');
+    sportEl.innerHTML = '';
+    const maxSport = Math.max(...bySport.map(s => s.count), 1);
+    if (!bySport.length) { sportEl.innerHTML = '<div class="no-data">No sport data</div>'; }
+    else {
+      bySport.sort((a, b) => b.count - a.count).forEach((s, i) => {
+        const pct = (s.count / maxSport) * 100;
+        const row = document.createElement('div');
+        row.className = 'sport-row';
+        row.innerHTML = '<div class="sport-name">' + s._id + '</div><div class="sport-bar-bg"><div class="sport-bar-fill"></div></div><div class="sport-num">' + s.count + '</div>';
+        sportEl.appendChild(row);
+        setTimeout(() => { row.querySelector('.sport-bar-fill').style.width = pct + '%'; }, 80 + i * 60);
+      });
+    }
+    const tbody = document.getElementById('tableBody');
+    tbody.innerHTML = '';
+    const sorted = [...byDay].sort((a, b) => new Date(b._id) - new Date(a._id));
+    let cumulative = total;
+    sorted.forEach((d, i) => {
+      const dateObj = new Date(d._id);
+      const isToday = dateObj.toDateString() === today;
+      const tr = document.createElement('tr');
+      tr.innerHTML = '<td style="color:rgba(255,255,255,0.3)">' + (sorted.length - i) + '</td><td>' +
+        dateObj.toLocaleDateString('en-IN', { day: '2-digit', month: 'long', year: 'numeric' }) +
+        (isToday ? ' <span class="dot-today"></span>' : '') +
+        '</td><td style="color:rgba(255,255,255,0.55)">' + dateObj.toLocaleDateString('en-IN', { weekday: 'long' }) +
+        '</td><td><span class="badge-count">+' + d.count + '</span></td><td style="color:rgba(255,255,255,0.6)">' + cumulative + '</td>';
+      tbody.appendChild(tr);
+      cumulative -= d.count;
+    });
+  }
+
+  function renderRegTable(data) {
+    const tbody = document.getElementById('regTableBody');
+    tbody.innerHTML = '';
+    document.getElementById('regCountBadge').textContent = 'Showing ' + data.length + ' record' + (data.length !== 1 ? 's' : '');
+    if (!data.length) { tbody.innerHTML = '<tr class="empty-row"><td colspan="9">No registrations found</td></tr>'; return; }
+    data.forEach((r, i) => {
+      const date = new Date(r.createdAt);
+      const tr = document.createElement('tr');
+      tr.innerHTML =
+        '<td class="sno">' + (i + 1) + '</td>' +
+        '<td><b style="color:#fff">' + r.name + '</b></td>' +
+        '<td>' + r.college + '</td>' +
+        '<td style="font-size:0.78rem">' + r.email + '</td>' +
+        '<td>' + r.mobile + '</td>' +
+        '<td><span class="sport-pill">' + r.sport + '</span></td>' +
+        '<td><span class="cat-pill">' + r.category + '</span></td>' +
+        '<td class="team-info">' + (r.team ? '<b>' + r.team + '</b><br>' + (r.captain || '') : '—') + '</td>' +
+        '<td class="reg-date">' + date.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }) + '<br>' + date.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' }) + '</td>';
+      tbody.appendChild(tr);
+    });
+  }
+
+  function filterTable() {
+    const search = document.getElementById('searchInput').value.toLowerCase();
+    const sport  = document.getElementById('sportFilter').value;
+    const cat    = document.getElementById('catFilter').value;
+    const filtered = allRegistrations.filter(r =>
+      (!search || r.name.toLowerCase().includes(search) || r.email.toLowerCase().includes(search) || r.college.toLowerCase().includes(search) || (r.mobile && r.mobile.includes(search))) &&
+      (!sport || r.sport === sport) &&
+      (!cat   || r.category === cat)
+    );
+    renderRegTable(filtered);
+  }
+
+  function exportCSV() {
+    if (!allRegistrations.length) { alert('No data to export. Fetch registrations first.'); return; }
+    const headers = ['S.No','Name','College','Email','Mobile','Sport','Category','Team','Captain','Registered On'];
+    const rows = allRegistrations.map((r, i) => [i+1, r.name, r.college, r.email, r.mobile, r.sport, r.category, r.team||'', r.captain||'', new Date(r.createdAt).toLocaleString('en-IN')]);
+    const csv = [headers, ...rows].map(r => r.map(v => '"' + String(v).replace(/"/g, '""') + '"').join(',')).join('\n');
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' }));
+    a.download = 'khelutsav-registrations-' + new Date().toISOString().slice(0,10) + '.csv';
+    a.click();
+  }
+</script>
+</body>
+</html>

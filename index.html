@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Khel Utsav 2025–26</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cinzel+Decorative:wght@700&family=Raleway:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <nav class="udghosh-navbar" id="mainNav">
+    <div class="nav-logo">
+      
+    </div>
+    <ul class="nav-menu">
+      <li><a href="adminlogin.html" class="nav-link-item">Admin</a></li>
+      <li><a href="#home"     class="nav-link-item" data-section="home">Home</a></li>
+      <li><a href="#gallery"  class="nav-link-item" data-section="image">Gallery</a></li>
+      <li><a href="#videos"   class="nav-link-item" data-section="videos">Videos</a></li>
+      <li><a href="#games"    class="nav-link-item" data-section="games">Sports</a></li>
+      <li><a href="#about"    class="nav-link-item" data-section="about">About</a></li>
+      <li><a href="#faculty"  class="nav-link-item" data-section="faculty">Faculty</a></li>
+      <li><a href="#contact"  class="nav-link-item" data-section="contact">Contact</a></li>
+    </ul>
+    <button class="nav-register-btn" onclick="scrollToSection('games')">Register Now</button>
+    <button class="hamburger" id="hamburger" aria-label="Menu">&#9776;</button>
+  </nav>
+
+  <!-- Mobile Drawer -->
+  <div class="mobile-drawer" id="mobileDrawer">
+    <button class="drawer-close" id="drawerClose">&times;</button>
+    <ul>
+      <li><a href="#home"    onclick="closeDrawer()">Home</a></li>
+      <li><a href="#image"   onclick="closeDrawer()">Gallery</a></li>
+      <li><a href="#videos"  onclick="closeDrawer()">Videos</a></li>
+      <li><a href="#games"   onclick="closeDrawer()">Sports</a></li>
+      <li><a href="#about"   onclick="closeDrawer()">About</a></li>
+      <li><a href="#faculty" onclick="closeDrawer()">Faculty</a></li>
+      <li><a href="#contact" onclick="closeDrawer()">Contact</a></li>
+    </ul>
+  </div>
+
+  <!-- ========== HERO ========== -->
+  <section id="home">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <p class="hero-eyebrow">Dev Bhoomi Uttarakhand University Presents</p>
+      <h1 class="hero-title">KHEL UTSAV</h1>
+      <h2 class="hero-year">2025 – 26</h2>
+      <p class="hero-sub">Where Champions Are Born</p>
+      <div class="hero-cta-group">
+        <button class="btn-primary-hero" onclick="scrollToSection('games')">Register Now</button>
+        <button class="btn-outline-hero" onclick="scrollToSection('about')">Learn More</button>
+      </div>
+    </div>
+    <div class="hero-scroll-hint">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- ========== GALLERY ========== -->
+  <section id="image" class="gallery-section">
+    <div class="section-header">
+      <p class="section-eyebrow">Moments</p>
+      <h2 class="section-title">Photo Gallery</h2>
+    </div>
+    <div class="gallery-arc">
+      <div class="gcard g1"><img src="2.jpeg" alt="Event Photo 1" loading="lazy"></div>
+      <div class="gcard g2"><img src="3.jpeg" alt="Event Photo 2" loading="lazy"></div>
+      <div class="gcard g3"><img src="4.jpeg" alt="Event Photo 3" loading="lazy"></div>
+      <div class="gcard g4"><img src="5.jpeg" alt="Event Photo 4" loading="lazy"></div>
+      <div class="gcard g3"><img src="IMG_20260129_123140842.jpg" alt="Event Photo 5" loading="lazy"></div>
+      <div class="gcard g5"><img src="cricket.jpg.png" alt="Cricket" loading="lazy"></div>
+    </div>
+  </section>
+
+  <!-- ========== VIDEOS ========== -->
+  <section id="videos" class="video-section">
+    <div class="section-header">
+      <p class="section-eyebrow">Highlights</p>
+      <h2 class="section-title">Event Videos</h2>
+    </div>
+    <div class="video-gallery">
+      <div class="video-card">
+  <div class="video-badge">Match Highlights</div>
+  <div class="video-wrapper">
+    <video controls preload="metadata">
+      <source src="WhatsApp Video 2026-02-05 at 10.47.21 PM.mp4" type="video/mp4">
+    </video>
+  </div>
+</div>
+
+<div class="video-card">
+  <div class="video-badge">Match Highlights</div>
+  <div class="video-wrapper">
+    <video controls preload="metadata">
+      <source src="WhatsApp Video 2026-02-05 at 10.47.13 PM.mp4" type="video/mp4">
+    </video>
+  </div>
+</div>
+  </section>
+
+  <!-- SPORTS  -->
+  <section id="games" class="games-section">
+    <div class="section-header">
+      <p class="section-eyebrow">Compete</p>
+      <h2 class="section-title">Sports We Organize</h2>
+    </div>
+    <div class="sports-grid">
+
+      <a href="form.html?sport=Cricket" class="sport-card" data-sport="Cricket">
+        <div class="sport-icon">🏏</div>
+        <h3>Cricket</h3>
+        <span class="sport-cta">Register →</span>
+      </a>
+
+      <a href="form.html?sport=Football" class="sport-card" data-sport="Football">
+        <div class="sport-icon">⚽</div>
+        <h3>Football</h3>
+        <span class="sport-cta">Register →</span>
+      </a>
+
+      <a href="form.html?sport=Kabaddi" class="sport-card" data-sport="Kabaddi">
+        <div class="sport-icon">🤼</div>
+        <h3>Kabaddi</h3>
+        <span class="sport-cta">Register →</span>
+      </a>
+
+      <a href="form.html?sport=Chess" class="sport-card" data-sport="Chess">
+        <div class="sport-icon">♟️</div>
+        <h3>Chess</h3>
+        <span class="sport-cta">Register →</span>
+      </a>
+
+      <a href="form.html?sport=Carrom" class="sport-card" data-sport="Carrom">
+        <div class="sport-icon">🎯</div>
+        <h3>Carrom</h3>
+        <span class="sport-cta">Register →</span>
+      </a>
+
+      <a href="form.html?sport=Basketball" class="sport-card" data-sport="Basketball">
+        <div class="sport-icon">🏀</div>
+        <h3>Basketball</h3>
+        <span class="sport-cta">Register →</span>
+      </a>
+
+      <a href="form.html?sport=Volleyball" class="sport-card" data-sport="Volleyball">
+        <div class="sport-icon">🏐</div>
+        <h3>Volleyball</h3>
+        <span class="sport-cta">Register →</span>
+      </a>
+
+      <a href="form.html?sport=Table Tennis" class="sport-card" data-sport="Table Tennis">
+        <div class="sport-icon">🏓</div>
+        <h3>Table Tennis</h3>
+        <span class="sport-cta">Register →</span>
+      </a>
+
+      <a href="form.html?sport=Badminton" class="sport-card" data-sport="Badminton">
+        <div class="sport-icon">🏸</div>
+        <h3>Badminton</h3>
+        <span class="sport-cta">Register →</span>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- ========== ABOUT ========== -->
+  <section id="about" class="about-section">
+    <div class="about-container">
+      <div class="about-left">
+        <p class="section-eyebrow" style="color:#f5b74a">Our Story</p>
+        <h2 class="about-heading">ABOUT US</h2>
+        <p class="about-text" style="color:#f5b74a">
+          Khel Utsav: A Celebration of Sportsmanship at DBUU. The campus of Dev Bhoomi Uttarakhand University
+          buzzes with immense energy and enthusiasm during the annual 'Khel Utsav.' This sports extravaganza serves
+          as a vibrant platform for students to showcase their athletic prowess, discipline, and team spirit.
+          Outdoor arenas fill with excitement as teams battle it out in Cricket, Football, Kabaddi, Basketball,
+          and Volleyball. The spirit of competition is equally palpable indoors with Chess, Badminton, and Carrom.
+          Set against the scenic backdrop of Uttarakhand, Khel Utsav is more than just a competition — it is a
+          celebration of perseverance and camaraderie.
+        </p>
+        <div class="stats">
+          <div class="stat"><h3>100+</h3><span>WINNERS</span></div>
+          <div class="stat"><h3>10+</h3><span>DEPARTMENTS</span></div>
+          <div class="stat"><h3>1,000+</h3><span>PARTICIPANTS</span></div>
+          <div class="stat"><h3>10+</h3><span>DAYS</span></div>
+          <div class="stat"><h3>9+</h3><span>SPORTS</span></div>
+        </div>
+      </div>
+      <div class="about-right">
+        <img src="dbuu1.png" alt="DBUU Campus">
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== FACULTY ========== -->
+  <section id="faculty" class="faculty-section">
+    <div class="section-header">
+      <p class="section-eyebrow">The Team</p>
+      <h2 class="faculty-title">Organizing Faculty</h2>
+    </div>
+    <div class="faculty-container">
+      <div class="faculty-card">
+        <img src="AMAN-BANSAL-.png" alt="Mr Aman Bansal">
+        <h3>Mr Aman Bansal</h3>
+        <p>Vice President</p>
+      </div>
+      <div class="faculty-card">
+        <img src="Screenshot 2026-02-09 235718.png" alt="Dr Digvijay Singh">
+        <h3>Dr Digvijay Singh</h3>
+        <p>Dean of Student Welfare</p>
+      </div>
+      <div class="faculty-card">
+        <img src="rahul.jpg" alt="Rahul Kandari">
+        <h3>Rahul Kandari</h3>
+        <p>Sports Instructor</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== CONTACT ========== -->
+  <section id="contact" class="contact-section">
+    <div class="contact-inner">
+      <p class="section-eyebrow">Get In Touch</p>
+      <h2 class="contact-title">Contact Us</h2>
+      <div class="contact-cards">
+        <div class="contact-card">
+          <div class="contact-icon">📍</div>
+          <h4>Address</h4>
+          <p>Dev Bhoomi Campus, Chakrata Road Navgaon,<br>Manduwala, Dehradun – 248007, Uttarakhand, INDIA</p>
+        </div>
+        <div class="contact-card">
+          <div class="contact-icon">✉️</div>
+          <h4>Email</h4>
+          <p><a href="mailto:info@dbuu.ac.in">info@dbuu.ac.in</a></p>
+        </div>
+        <div class="contact-card">
+          <div class="contact-icon">📞</div>
+          <h4>Admissions & Outreach</h4>
+          <p><a href="tel:18001034049">1800 103 4049</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== FOOTER ========== -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-brand">⚡ KHEL UTSAV <span>2025–26</span></div>
+      <p class="footer-copy">© 2026 DBUU. All Rights Reserved.</p>
+      <p class="footer-sig">Designed with ❤️ by Guddu</p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+  /* ── Smooth scroll utility ── */
+  function scrollToSection(id) {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  /* ── Navbar smooth scroll for all links ── */
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth' });
+      }
+    });
+  });
+
+  /* ── Navbar shrink + active link (single listener, requestAnimationFrame throttle) ── */
+  const nav = document.getElementById('mainNav');
+  const sections = Array.from(document.querySelectorAll('section[id]'));
+  const navLinks = document.querySelectorAll('.nav-link-item');
+
+  let ticking = false;
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      requestAnimationFrame(() => {
+        const scrollY = window.scrollY;
+
+        // Navbar shrink
+        nav.classList.toggle('scrolled', scrollY > 80);
+
+        // Active link highlight
+        let current = '';
+        sections.forEach(s => {
+          if (scrollY >= s.offsetTop - 120) current = s.id;
+        });
+        navLinks.forEach(a => {
+          a.classList.toggle('active', a.dataset.section === current);
+        });
+
+        ticking = false;
+      });
+      ticking = true;
+    }
+  }, { passive: true });
+
+  /* ── Hamburger / mobile drawer ── */
+  document.getElementById('hamburger').addEventListener('click', () => {
+    document.getElementById('mobileDrawer').classList.add('open');
+  });
+  document.getElementById('drawerClose').addEventListener('click', closeDrawer);
+  function closeDrawer() {
+    document.getElementById('mobileDrawer').classList.remove('open');
+  }
+
+  /* ── Sport card hover tilt ── */
+  document.querySelectorAll('.sport-card').forEach(card => {
+    card.addEventListener('mousemove', e => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left - rect.width / 2;
+      const y = e.clientY - rect.top - rect.height / 2;
+      card.style.transform = `perspective(600px) rotateX(${-y/15}deg) rotateY(${x/15}deg) scale(1.04)`;
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = 'perspective(600px) rotateX(0) rotateY(0) scale(1)';
+    });
+  });
+
+  /* ── Scroll-in animation ── */
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) e.target.classList.add('visible');
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.sport-card, .stat, .faculty-card, .contact-card, .video-card').forEach(el => {
+    el.classList.add('fade-up');
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>
